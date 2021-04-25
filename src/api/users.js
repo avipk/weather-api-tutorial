@@ -139,7 +139,7 @@ function authorize(...roles) {
             let authorized = false;
 
             if(currentUserId) {
-                user = await findById(currentUserId);
+                user = await findById(currentUserId);                
             }
 
             if(user) {                
@@ -148,23 +148,24 @@ function authorize(...roles) {
 
                     switch(role) {
                         case 'matchedUser':
-                            const requestUserId = req.params.userId;
+                            const requestUserId = req.params.userid;
                             matched = currentUserId === requestUserId;
                             break;
                         default :
                             matched = user.role === role;
                             break;
-                    }             
+                    } 
                     
                     return matched;
                 });
             }
 
             if(!authorized) {
-                res.status(403).send(`This path is forbiden for users with role: ${user.role}`);
+                res.status(403).send(`This path is forbiden for user: [${currentUserId}] with role: ${user.role}`);
             }
-        
-            next();
+            else {
+                next();
+            }        
         };            
     }
 
@@ -183,6 +184,7 @@ function authonticate(req, res, next) {
     }        
     if(isVerified) {
         req.params.currentUserId = userId;
+        console.log(`verified user-id: ${userId}`);
         next();
     }         
     else {

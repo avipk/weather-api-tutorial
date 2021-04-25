@@ -66,7 +66,7 @@ async function deleteUser(req, res) {
 }
 
 async function getUser(req, res) {
-    const { userid } = req.params;
+    const { userid, currentUserId } = req.params;
     
     try {
         const user = await usersApi.findById(userid);
