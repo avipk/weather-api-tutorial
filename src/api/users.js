@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
-const e = require('express');
 
 const anonymousUser = Object.freeze({
     role: 'anonymous'
